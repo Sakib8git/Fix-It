@@ -1,93 +1,112 @@
-'use client'
+"use client";
 
-import React from "react"
+import React from "react";
 
-import { useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Wrench, Eye, EyeOff, CheckCircle2 } from 'lucide-react'
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+import { Wrench, Eye, EyeOff, CheckCircle2 } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/Components/ui/card";
+import { Input } from "@/Components/ui/input";
+import { Button } from "@/Components/ui/button";
 
 export default function SignupPage() {
-  const router = useRouter()
+  const router = useRouter();
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: '',
-  })
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+    fullName: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const passwordRequirements = [
-    { label: 'At least 8 characters', met: formData.password.length >= 8 },
-    { label: 'Contains uppercase letter', met: /[A-Z]/.test(formData.password) },
-    { label: 'Contains lowercase letter', met: /[a-z]/.test(formData.password) },
-    { label: 'Contains number', met: /[0-9]/.test(formData.password) },
-  ]
+    { label: "At least 8 characters", met: formData.password.length >= 8 },
+    {
+      label: "Contains uppercase letter",
+      met: /[A-Z]/.test(formData.password),
+    },
+    {
+      label: "Contains lowercase letter",
+      met: /[a-z]/.test(formData.password),
+    },
+    { label: "Contains number", met: /[0-9]/.test(formData.password) },
+  ];
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
-  }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
 
     // Validation
-    if (!formData.fullName || !formData.email || !formData.phone || !formData.password || !formData.confirmPassword) {
-      setError('Please fill in all fields')
-      setLoading(false)
-      return
+    if (
+      !formData.fullName ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.password ||
+      !formData.confirmPassword
+    ) {
+      setError("Please fill in all fields");
+      setLoading(false);
+      return;
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      setError('Please enter a valid email address')
-      setLoading(false)
-      return
+      setError("Please enter a valid email address");
+      setLoading(false);
+      return;
     }
 
-    if (!/^\d{10}$/.test(formData.phone.replace(/\D/g, ''))) {
-      setError('Please enter a valid 10-digit phone number')
-      setLoading(false)
-      return
+    if (!/^\d{10}$/.test(formData.phone.replace(/\D/g, ""))) {
+      setError("Please enter a valid 10-digit phone number");
+      setLoading(false);
+      return;
     }
 
     if (formData.password.length < 8) {
-      setError('Password must be at least 8 characters')
-      setLoading(false)
-      return
+      setError("Password must be at least 8 characters");
+      setLoading(false);
+      return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match')
-      setLoading(false)
-      return
+      setError("Passwords do not match");
+      setLoading(false);
+      return;
     }
 
-    const allRequirementsMet = passwordRequirements.every(req => req.met)
+    const allRequirementsMet = passwordRequirements.every((req) => req.met);
     if (!allRequirementsMet) {
-      setError('Password does not meet all requirements')
-      setLoading(false)
-      return
+      setError("Password does not meet all requirements");
+      setLoading(false);
+      return;
     }
 
     // Simulate signup
     setTimeout(() => {
-      localStorage.setItem('userEmail', formData.email)
-      localStorage.setItem('userName', formData.fullName)
-      localStorage.setItem('userPhone', formData.phone)
-      localStorage.setItem('isLoggedIn', 'true')
-      router.push('/dashboard')
-    }, 1000)
-  }
+      localStorage.setItem("userEmail", formData.email);
+      localStorage.setItem("userName", formData.fullName);
+      localStorage.setItem("userPhone", formData.phone);
+      localStorage.setItem("isLoggedIn", "true");
+      router.push("/dashboard");
+    }, 1000);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted flex flex-col items-center justify-center px-4 py-12">
@@ -103,7 +122,9 @@ export default function SignupPage() {
       <Card className="w-full max-w-md border-border bg-card">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Create Account</CardTitle>
-          <CardDescription>Join thousands of satisfied customers</CardDescription>
+          <CardDescription>
+            Join thousands of satisfied customers
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -116,7 +137,9 @@ export default function SignupPage() {
 
             {/* Full Name Field */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-foreground">Full Name</label>
+              <label className="block text-sm font-medium text-foreground">
+                Full Name
+              </label>
               <Input
                 type="text"
                 name="fullName"
@@ -129,7 +152,9 @@ export default function SignupPage() {
 
             {/* Email Field */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-foreground">Email Address</label>
+              <label className="block text-sm font-medium text-foreground">
+                Email Address
+              </label>
               <Input
                 type="email"
                 name="email"
@@ -142,7 +167,9 @@ export default function SignupPage() {
 
             {/* Phone Field */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-foreground">Phone Number</label>
+              <label className="block text-sm font-medium text-foreground">
+                Phone Number
+              </label>
               <Input
                 type="tel"
                 name="phone"
@@ -155,10 +182,12 @@ export default function SignupPage() {
 
             {/* Password Field */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-foreground">Password</label>
+              <label className="block text-sm font-medium text-foreground">
+                Password
+              </label>
               <div className="relative">
                 <Input
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   placeholder="Create a strong password"
                   value={formData.password}
@@ -182,12 +211,23 @@ export default function SignupPage() {
             {/* Password Requirements */}
             {formData.password && (
               <div className="space-y-2">
-                <p className="text-xs font-medium text-muted-foreground">Password requirements:</p>
+                <p className="text-xs font-medium text-muted-foreground">
+                  Password requirements:
+                </p>
                 <div className="space-y-1">
                   {passwordRequirements.map((req, index) => (
-                    <div key={index} className="flex items-center gap-2 text-xs">
-                      <CheckCircle2 className={`h-3 w-3 ${req.met ? 'text-green-500' : 'text-muted-foreground'}`} />
-                      <span className={req.met ? 'text-green-600' : 'text-muted-foreground'}>
+                    <div
+                      key={index}
+                      className="flex items-center gap-2 text-xs"
+                    >
+                      <CheckCircle2
+                        className={`h-3 w-3 ${req.met ? "text-green-500" : "text-muted-foreground"}`}
+                      />
+                      <span
+                        className={
+                          req.met ? "text-green-600" : "text-muted-foreground"
+                        }
+                      >
                         {req.label}
                       </span>
                     </div>
@@ -198,10 +238,12 @@ export default function SignupPage() {
 
             {/* Confirm Password Field */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-foreground">Confirm Password</label>
+              <label className="block text-sm font-medium text-foreground">
+                Confirm Password
+              </label>
               <div className="relative">
                 <Input
-                  type={showConfirmPassword ? 'text' : 'password'}
+                  type={showConfirmPassword ? "text" : "password"}
                   name="confirmPassword"
                   placeholder="Confirm your password"
                   value={formData.confirmPassword}
@@ -228,13 +270,16 @@ export default function SignupPage() {
               disabled={loading}
               className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
             >
-              {loading ? 'Creating account...' : 'Create Account'}
+              {loading ? "Creating account..." : "Create Account"}
             </Button>
 
             {/* Sign In Link */}
             <p className="text-center text-sm text-muted-foreground">
-              Already have an account?{' '}
-              <Link href="/login" className="text-primary font-medium hover:underline">
+              Already have an account?{" "}
+              <Link
+                href="/login"
+                className="text-primary font-medium hover:underline"
+              >
                 Sign in
               </Link>
             </p>
@@ -244,15 +289,15 @@ export default function SignupPage() {
 
       {/* Footer */}
       <p className="text-xs text-muted-foreground text-center mt-6 max-w-sm">
-        By creating an account, you agree to our{' '}
+        By creating an account, you agree to our{" "}
         <Link href="#" className="text-primary hover:underline">
           Terms of Service
-        </Link>{' '}
-        and{' '}
+        </Link>{" "}
+        and{" "}
         <Link href="#" className="text-primary hover:underline">
           Privacy Policy
         </Link>
       </p>
     </div>
-  )
+  );
 }
