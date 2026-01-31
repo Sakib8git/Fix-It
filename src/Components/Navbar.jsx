@@ -1,6 +1,5 @@
 "use client";
 
-
 import { Wrench } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -48,21 +47,21 @@ export default function Navbar() {
 
           {/* Right Buttons */}
           <div className="flex items-center gap-3">
-            <Link href="/dashboard">
+            <Link href="/login">
               <Button
                 variant="outline"
                 size="sm"
                 className="hidden sm:inline-flex bg-transparent"
               >
-                Dashboard
+                Login
               </Button>
             </Link>
-            <Link href="/feedback">
+            <Link href="/signup">
               <Button
                 size="sm"
                 className="bg-primary text-primary-foreground hover:bg-primary/90"
               >
-                Feedback
+                Sign Up
               </Button>
             </Link>
           </div>
