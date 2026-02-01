@@ -1,58 +1,107 @@
-'use client'
+"use client";
 
-import React from "react"
+import React from "react";
 
-import { useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-
-
-import { Wrench, Eye, EyeOff } from 'lucide-react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card"
-import { Input } from "@/Components/ui/input"
-import { Button } from "@/Components/ui/button"
+import { Wrench, Eye, EyeOff } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/Components/ui/card";
+import { Input } from "@/Components/ui/input";
+import { Button } from "@/Components/ui/button";
+import { signInWithEmail } from "@/lib/auth";
+import Swal from "sweetalert2";
 
 export default function LoginPage() {
-  const router = useRouter()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
-
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
     // Basic validation
     if (!email || !password) {
-      setError('Please fill in all fields')
-      setLoading(false)
-      return
+      setError("Please fill in all fields");
+      setLoading(false);
+      return;
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError('Please enter a valid email address')
-      setLoading(false)
-      return
+      setError("Please enter a valid email address");
+      setLoading(false);
+      return;
     }
 
     if (password.length < 6) {
-      setError('Password must be at least 6 characters')
-      setLoading(false)
-      return
+      setError("Password must be at least 6 characters");
+      setLoading(false);
+      return;
+    }
+    try {
+      await signInWithEmail(email, password);
+      Swal.fire({
+        icon: "success",
+        title: "Login successful!",
+        text: `Welcome back, ${email}`,
+        confirmButtonColor: "#16a34a",
+      });
+      router.push("/");
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        icon: "error",
+        title: "Login failed",
+        text: "Please check your credentials and try again.",
+        confirmButtonColor: "#dc2626", // red-600
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    // Basic validation
+    if (!email || !password) {
+      setError("Please fill in all fields");
+      setLoading(false);
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError("Please enter a valid email address");
+      setLoading(false);
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters");
+      setLoading(false);
+      return;
     }
 
     // Simulate login
     setTimeout(() => {
-      localStorage.setItem('userEmail', email)
-      localStorage.setItem('userName', email.split('@')[0])
-      localStorage.setItem('isLoggedIn', 'true')
-      router.push('/dashboard')
-    }, 1000)
-  }
+      localStorage.setItem("userEmail", email);
+      localStorage.setItem("userName", email.split("@")[0]);
+      localStorage.setItem("isLoggedIn", "true");
+      router.push("/");
+    }, 1000);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted flex flex-col items-center justify-center px-4 py-12">
@@ -68,10 +117,12 @@ export default function LoginPage() {
       <Card className="w-full max-w-md border-border bg-card">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Welcome Back</CardTitle>
-          <CardDescription>Sign in to your account to access your repairs</CardDescription>
+          <CardDescription>
+            Sign in to your account to access your repairs
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-4">
             {/* Error Message */}
             {error && (
               <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-sm text-destructive">
@@ -81,7 +132,9 @@ export default function LoginPage() {
 
             {/* Email Field */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-foreground">Email Address</label>
+              <label className="block text-sm font-medium text-foreground">
+                Email Address
+              </label>
               <Input
                 type="email"
                 placeholder="you@example.com"
@@ -94,14 +147,16 @@ export default function LoginPage() {
             {/* Password Field */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label className="block text-sm font-medium text-foreground">Password</label>
+                <label className="block text-sm font-medium text-foreground">
+                  Password
+                </label>
                 <Link href="#" className="text-xs text-primary hover:underline">
                   Forgot password?
                 </Link>
               </div>
               <div className="relative">
                 <Input
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -127,13 +182,16 @@ export default function LoginPage() {
               disabled={loading}
               className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
             >
-              {loading ? 'Signing in...' : 'Sign In'}
+              {loading ? "Signing in..." : "Sign In"}
             </Button>
 
             {/* Sign Up Link */}
             <p className="text-center text-sm text-muted-foreground">
-              Don't have an account?{' '}
-              <Link href="/signup" className="text-primary font-medium hover:underline">
+              Don't have an account?{" "}
+              <Link
+                href="/signup"
+                className="text-primary font-medium hover:underline"
+              >
                 Sign up
               </Link>
             </p>
@@ -142,35 +200,59 @@ export default function LoginPage() {
           {/* Divider */}
           <div className="my-6 flex items-center gap-3">
             <div className="flex-1 h-px bg-border" />
-            <span className="text-xs text-muted-foreground">Or continue as</span>
+            <span className="text-xs text-muted-foreground">
+              Or continue as
+            </span>
             <div className="flex-1 h-px bg-border" />
           </div>
 
           {/* Demo Login */}
-          <Button
-            variant="outline"
-            className="w-full border-border text-foreground hover:bg-muted bg-transparent"
-            onClick={() => {
-              setEmail('demo@example.com')
-              setPassword('demo123')
-            }}
-          >
-            Demo Login
-          </Button>
+          <div className="grid grid-cols-3 gap-2">
+            <Button
+              variant="outline"
+              className="w-full bg-amber-200 border-border text-foreground hover:bg-amber-400 "
+              onClick={() => {
+                setEmail("demo@user.com");
+                setPassword("User1234");
+              }}
+            >
+              Demo User
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full bg-green-200 border-border text-foreground hover:bg-green-400"
+              onClick={() => {
+                setEmail("demo@staff.com");
+                setPassword("Staff1234");
+              }}
+            >
+              Demo Staff
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full bg-sky-200 border-border text-foreground hover:bg-sky-400"
+              onClick={() => {
+                setEmail("demo@example.com");
+                setPassword("Admin1234");
+              }}
+            >
+              Demo Admin
+            </Button>
+          </div>
         </CardContent>
       </Card>
 
       {/* Footer */}
       <p className="text-xs text-muted-foreground text-center mt-6">
-        By signing in, you agree to our{' '}
+        By signing in, you agree to our{" "}
         <Link href="#" className="text-primary hover:underline">
           Terms of Service
-        </Link>{' '}
-        and{' '}
+        </Link>{" "}
+        and{" "}
         <Link href="#" className="text-primary hover:underline">
           Privacy Policy
         </Link>
       </p>
     </div>
-  )
+  );
 }

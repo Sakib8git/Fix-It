@@ -16,15 +16,17 @@ import {
 } from "@/Components/ui/card";
 import { Input } from "@/Components/ui/input";
 import { Button } from "@/Components/ui/button";
+import { signUpWithEmail } from "@/lib/auth";
+import Swal from "sweetalert2";
 
 export default function SignupPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
-    phone: "",
     password: "",
     confirmPassword: "",
+    phone: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -49,8 +51,41 @@ export default function SignupPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      await signUpWithEmail(
+        formData.email,
+        formData.password,
+        formData.fullName,
+        formData.phone,
+      );
+      Swal.fire({
+        icon: "success",
+        title: "Account created successfully!",
+        text: `Welcome, ${formData.fullName}`,
+        confirmButtonColor: "#16a34a",
+      });
+      router.push("/login");
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        icon: "error",
+        title: "Signup failed",
+        text: "Something went wrong. Please try again.",
+        confirmButtonColor: "#dc2626",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setError("");
     setLoading(true);
 
@@ -73,8 +108,8 @@ export default function SignupPage() {
       return;
     }
 
-    if (!/^\d{10}$/.test(formData.phone.replace(/\D/g, ""))) {
-      setError("Please enter a valid 10-digit phone number");
+    if (!/^\d{11}$/.test(formData.phone.replace(/\D/g, ""))) {
+      setError("Please enter a valid 11-digit phone number");
       setLoading(false);
       return;
     }
@@ -104,7 +139,7 @@ export default function SignupPage() {
       localStorage.setItem("userName", formData.fullName);
       localStorage.setItem("userPhone", formData.phone);
       localStorage.setItem("isLoggedIn", "true");
-      router.push("/dashboard");
+      router.push("/login");
     }, 1000);
   };
 
@@ -127,7 +162,7 @@ export default function SignupPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSignup} className="space-y-4">
             {/* Error Message */}
             {error && (
               <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-sm text-destructive">
