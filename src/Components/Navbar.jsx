@@ -43,6 +43,12 @@ export default function Navbar() {
             >
               Contact
             </a>
+            <a
+              href="/dashboard"
+              className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+            >
+              Dashboard
+            </a>
           </div>
 
           {/* Right Buttons */}
