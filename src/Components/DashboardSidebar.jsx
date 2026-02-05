@@ -14,10 +14,9 @@ import {
   X,
 } from "lucide-react";
 import Link from "next/link";
-
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { usePathname } from "next/navigation";
-import { Button } from "./ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 
 const navGroups = [
   {
@@ -27,13 +26,9 @@ const navGroups = [
   {
     label: "Admin Views",
     items: [
-      { icon: Inbox, label: "All Tickets", href: "/dashboard/tickets" },
-      { icon: Users, label: "Manage Users", href: "/dashboard/users" },
-      {
-        icon: Settings,
-        label: "Service Settings",
-        href: "/dashboard/settings",
-      },
+      { icon: Inbox, label: "All Tickets", href: "/admin/tickets" },
+      { icon: Users, label: "Manage Users", href: "/admin/users" },
+      { icon: Settings, label: "Service Settings", href: "/admin/settings" },
     ],
   },
   {
@@ -42,18 +37,18 @@ const navGroups = [
       {
         icon: ClipboardCheck,
         label: "My Assigned Tasks",
-        href: "/dashboard/tasks",
+        href: "/technician/tasks",
       },
     ],
   },
   {
     label: "Customer Views",
     items: [
-      { icon: History, label: "My Repair History", href: "/dashboard/history" },
+      { icon: History, label: "My Repair History", href: "/customer/history" },
       {
         icon: PlusCircle,
         label: "Create New Request",
-        href: "/dashboard/new-request",
+        href: "/customer/create-request",
       },
     ],
   },

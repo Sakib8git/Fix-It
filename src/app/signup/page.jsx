@@ -83,65 +83,65 @@ export default function SignupPage() {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
 
-    setError("");
-    setLoading(true);
+  //   setError("");
+  //   setLoading(true);
 
-    // Validation
-    if (
-      !formData.fullName ||
-      !formData.email ||
-      !formData.phone ||
-      !formData.password ||
-      !formData.confirmPassword
-    ) {
-      setError("Please fill in all fields");
-      setLoading(false);
-      return;
-    }
+  //   // Validation
+  //   if (
+  //     !formData.fullName ||
+  //     !formData.email ||
+  //     !formData.phone ||
+  //     !formData.password ||
+  //     !formData.confirmPassword
+  //   ) {
+  //     setError("Please fill in all fields");
+  //     setLoading(false);
+  //     return;
+  //   }
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      setError("Please enter a valid email address");
-      setLoading(false);
-      return;
-    }
+  //   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+  //     setError("Please enter a valid email address");
+  //     setLoading(false);
+  //     return;
+  //   }
 
-    if (!/^\d{11}$/.test(formData.phone.replace(/\D/g, ""))) {
-      setError("Please enter a valid 11-digit phone number");
-      setLoading(false);
-      return;
-    }
+  //   if (!/^\d{11}$/.test(formData.phone.replace(/\D/g, ""))) {
+  //     setError("Please enter a valid 11-digit phone number");
+  //     setLoading(false);
+  //     return;
+  //   }
 
-    if (formData.password.length < 8) {
-      setError("Password must be at least 8 characters");
-      setLoading(false);
-      return;
-    }
+  //   if (formData.password.length < 8) {
+  //     setError("Password must be at least 8 characters");
+  //     setLoading(false);
+  //     return;
+  //   }
 
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
-      setLoading(false);
-      return;
-    }
+  //   if (formData.password !== formData.confirmPassword) {
+  //     setError("Passwords do not match");
+  //     setLoading(false);
+  //     return;
+  //   }
 
-    const allRequirementsMet = passwordRequirements.every((req) => req.met);
-    if (!allRequirementsMet) {
-      setError("Password does not meet all requirements");
-      setLoading(false);
-      return;
-    }
+  //   const allRequirementsMet = passwordRequirements.every((req) => req.met);
+  //   if (!allRequirementsMet) {
+  //     setError("Password does not meet all requirements");
+  //     setLoading(false);
+  //     return;
+  //   }
 
-    // Simulate signup
-    setTimeout(() => {
-      localStorage.setItem("userEmail", formData.email);
-      localStorage.setItem("userName", formData.fullName);
-      localStorage.setItem("userPhone", formData.phone);
-      localStorage.setItem("isLoggedIn", "true");
-      router.push("/login");
-    }, 1000);
-  };
+  //   // Simulate signup
+  //   setTimeout(() => {
+  //     localStorage.setItem("userEmail", formData.email);
+  //     localStorage.setItem("userName", formData.fullName);
+  //     localStorage.setItem("userPhone", formData.phone);
+  //     localStorage.setItem("isLoggedIn", "true");
+  //     router.push("/login");
+  //   }, 1000);
+  // };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted flex flex-col items-center justify-center px-4 py-12">
