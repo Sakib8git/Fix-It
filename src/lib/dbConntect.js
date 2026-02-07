@@ -1,18 +1,23 @@
-const { MongoClient, ServerApiVersion } = require("mongodb");
-const uri = process.env.URI;
+import { MongoClient, ServerApiVersion } from "mongodb";
 
-// ১. ক্লায়েন্ট এবং কানেকশন ক্যাশ করার জন্য গ্লোবাল ভেরিয়েবল
-let client;
-let clientPromise;
-if (!process.env.URI) {
+// ১. আপনার .env ফাইল থেকে ভেরিয়েবলগুলো আনছি
+const uri = process.env.URI;
+const dbName = process.env.DB_NAME;
+
+// ২. URI চেক করা (না থাকলে এরর দেবে)
+if (!uri) {
   throw new Error("Please add your Mongo URI to .env.local");
 }
 
+
+
+let client;
+let clientPromise;
+
+// ৩. ডেভেলপমেন্ট মোডে গ্লোবাল ভেরিয়েবল ব্যবহার করে কানেকশন ঠিক রাখা
 if (process.env.NODE_ENV === "development") {
-  // ডেভেলপমেন্ট মোডে গ্লোবাল ভেরিয়েবল ব্যবহার করা হয়
-  // যাতে হট-রিলোড হলেও কানেকশন নষ্ট না হয়।
   if (!global._mongoClientPromise) {
-    const client = new MongoClient(uri, {
+    client = new MongoClient(uri, {
       serverApi: {
         version: ServerApiVersion.v1,
         strict: true,
@@ -21,8 +26,9 @@ if (process.env.NODE_ENV === "development") {
     });
     global._mongoClientPromise = client.connect();
   }
+  clientPromise = global._mongoClientPromise;
 } else {
-  // প্রোডাকশনে সরাসরি কানেক্ট হবে
+  // প্রোডাকশন মোড
   client = new MongoClient(uri, {
     serverApi: {
       version: ServerApiVersion.v1,
@@ -33,8 +39,16 @@ if (process.env.NODE_ENV === "development") {
   clientPromise = client.connect();
 }
 
+// ৪. এই ফাংশনটিই আপনি অন্য ফাইল থেকে কল করবেন
 export const getCollection = async (collectionName) => {
   const client = await clientPromise;
-  const db = client.db(process.env.DB_NAME);
+
+  // ডিবাগিং: যদি ক্লায়েন্ট না পাওয়া যায়, তবে কনসোলে জানাবে
+  if (!client) {
+    throw new Error("Database connection failed: Client is undefined");
+  }
+
+  // DB কানেক্ট করে কালেকশন রিটার্ন করা
+  const db = client.db(dbName);
   return db.collection(collectionName);
 };

@@ -57,12 +57,36 @@ export default function SignupPage() {
     setLoading(true);
 
     try {
+      // ১. প্রথমে Firebase এ ইউজার তৈরি করা
       await signUpWithEmail(
         formData.email,
         formData.password,
         formData.fullName,
         formData.phone,
       );
+
+      // 🔥 ২. Firebase সফল হলে, এখন আমরা MongoDB তে ডাটা সেভ করব (নতুন কোড)
+
+      const userInfo = {
+        name: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        image: formData.image || "https://i.ibb.co.com/RTf9gMR7/219988.png",
+        role: "customer",
+      };
+      // আপনার Next.js API কল করা হচ্ছে
+      const response = await fetch("/api/users", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(userInfo),
+      });
+      // যদি ডাটাবেসে সেভ না হয়, তবে এরর দেখাবে
+      if (!response.ok) {
+        throw new Error("Failed to save user data to database");
+      }
+      // ৩. সব সফল হলে সাকসেস মেসেজ
       Swal.fire({
         icon: "success",
         title: "Account created successfully!",
