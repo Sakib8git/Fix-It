@@ -17,6 +17,7 @@ import { Badge } from "@/Components/ui/badge";
 import { Input } from "@/Components/ui/input";
 import Swal from "sweetalert2";
 import { RepairLoader } from "@/Components/Loading/RepairLoader";
+import Link from "next/link";
 // import { PulseLoader } from "@/Components/Loading/PulseLoader";
 
 const devices = [
@@ -168,9 +169,12 @@ export default function CreateNewRequestPage() {
                   <p className="text-sm text-muted-foreground">
                     Save this ticket ID to track your repair status
                   </p>
-                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
+                  <Link
+                    href="/customer/history"
+                    className="w-full flex items-center justify-center rounded-md h-10 px-4 py-2 text-sm font-medium transition-colors bg-primary text-primary-foreground hover:bg-primary/90"
+                  >
                     View My Repairs
-                  </Button>
+                  </Link>
                   <Button
                     variant="outline"
                     className="w-full bg-background border-border"

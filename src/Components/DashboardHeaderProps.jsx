@@ -13,7 +13,6 @@ import {
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 
-// এখানে ডিফল্ট ভ্যালু দেওয়া হয়েছে যাতে এরর না দেয়
 export function DashboardHeader({
   breadcrumbs = [
     { label: "Dashboard", href: "/dashboard" },

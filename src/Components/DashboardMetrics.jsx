@@ -4,7 +4,6 @@ import React from "react";
 import { TrendingUp, AlertCircle, Wrench, Users } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
 
-// JSX ফাইলে interface বা type লাগে না, তাই ওটা বাদ দেওয়া হয়েছে।
 
 function MetricCard({ label, value, icon, trend }) {
   return (
