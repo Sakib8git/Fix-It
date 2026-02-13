@@ -4,10 +4,17 @@ import { useEffect, useState } from "react";
 import { Search, ChevronRight, Filter } from "lucide-react";
 import { DashboardSidebar } from "@/Components/DashboardSidebar";
 import { DashboardHeader } from "@/Components/DashboardHeaderProps";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/Components/ui/card";
 import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import { Badge } from "@/Components/ui/badge";
+import { RepairLoader } from "@/Components/Loading/RepairLoader";
 
 // স্ট্যাটাস ব্যাজ কালার লজিক (Case Insensitive করা হয়েছে)
 function getStatusBadge(status) {
@@ -44,7 +51,7 @@ export default function AllTicketsPage() {
         const res = await fetch("/api/repair-requests");
         const data = await res.json();
         setRepairs(data);
-      } catch (error) { 
+      } catch (error) {
         console.error("Failed to fetch data:", error);
       } finally {
         setLoading(false);
@@ -55,14 +62,22 @@ export default function AllTicketsPage() {
 
   // ২. ফিল্টারিং লজিক (নিরাপদ করা হয়েছে)
   const filtered = repairs.filter((ticket) => {
-    
-    const customerMatch = ticket.contact?.toLowerCase().includes(search.toLowerCase()) || false;
-    const idMatch = ticket.ticketId?.toLowerCase().includes(search.toLowerCase()) || false;
+    const customerMatch =
+      ticket.contact?.toLowerCase().includes(search.toLowerCase()) || false;
+    const idMatch =
+      ticket.ticketId?.toLowerCase().includes(search.toLowerCase()) || false;
     const matchesSearch = customerMatch || idMatch;
-    const matchesStatus = filterStatus === "all" || ticket.status?.toLowerCase() === filterStatus;
+    const matchesStatus =
+      filterStatus === "all" || ticket.status?.toLowerCase() === filterStatus;
     return matchesSearch && matchesStatus;
   });
-
+  if (loading) {
+    return (
+      <div>
+        <RepairLoader></RepairLoader>
+      </div>
+    );
+  }
   return (
     <div className="flex h-screen bg-background">
       <DashboardSidebar />
@@ -74,8 +89,12 @@ export default function AllTicketsPage() {
         <div className="flex-1 overflow-y-auto">
           <div className="p-6 space-y-8">
             <div>
-              <h1 className="text-3xl font-bold text-foreground">All Repair Tickets</h1>
-              <p className="text-muted-foreground">Manage and track all customer repair requests</p>
+              <h1 className="text-3xl font-bold text-foreground">
+                All Repair Tickets
+              </h1>
+              <p className="text-muted-foreground">
+                Manage and track all customer repair requests
+              </p>
             </div>
 
             <Card className="border-border bg-card">
@@ -87,7 +106,11 @@ export default function AllTicketsPage() {
                       Showing {filtered.length} of {repairs.length} tickets
                     </CardDescription>
                   </div>
-                  <Button variant="outline" size="sm" className="bg-background border-border gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="bg-background border-border gap-2"
+                  >
                     <Filter className="h-4 w-4" /> Filter
                   </Button>
                 </div>
@@ -109,21 +132,43 @@ export default function AllTicketsPage() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-border">
-                        <th className="text-left py-3 px-4 font-semibold text-foreground">Ticket ID</th>
-                        <th className="text-left py-3 px-4 font-semibold text-foreground">Contact</th>
-                        <th className="text-left py-3 px-4 font-semibold text-foreground">Device</th>
-                        <th className="text-left py-3 px-4 font-semibold text-foreground">Issue</th>
-                        <th className="text-left py-3 px-4 font-semibold text-foreground">Status</th>
-                        <th className="text-left py-3 px-4 font-semibold text-foreground">Date</th>
-                        <th className="text-left py-3 px-4 font-semibold text-foreground">Action</th>
+                        <th className="text-left py-3 px-4 font-semibold text-foreground">
+                          Ticket ID
+                        </th>
+                        <th className="text-left py-3 px-4 font-semibold text-foreground">
+                          Contact
+                        </th>
+                        <th className="text-left py-3 px-4 font-semibold text-foreground">
+                          Device
+                        </th>
+                        <th className="text-left py-3 px-4 font-semibold text-foreground">
+                          Issue
+                        </th>
+                        <th className="text-left py-3 px-4 font-semibold text-foreground">
+                          Status
+                        </th>
+                        <th className="text-left py-3 px-4 font-semibold text-foreground">
+                          Date
+                        </th>
+                        <th className="text-left py-3 px-4 font-semibold text-foreground">
+                          Action
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       {/* লোডিং স্টেট হ্যান্ডেল করা */}
                       {loading ? (
-                        <tr><td colSpan="7" className="text-center py-4">Loading...</td></tr>
+                        <tr>
+                          <td colSpan="7" className="text-center py-4">
+                            Loading...
+                          </td>
+                        </tr>
                       ) : filtered.length === 0 ? (
-                        <tr><td colSpan="7" className="text-center py-4">No tickets found</td></tr>
+                        <tr>
+                          <td colSpan="7" className="text-center py-4">
+                            No tickets found
+                          </td>
+                        </tr>
                       ) : (
                         filtered.map((ticket) => (
                           <tr
@@ -135,7 +180,7 @@ export default function AllTicketsPage() {
                             </td>
                             <td className="py-4 px-4 text-muted-foreground">
                               {/* customer ফিল্ড না থাকলে contact দেখাবে */}
-                              {ticket.customer || ticket.contact} 
+                              {ticket.customer || ticket.contact}
                             </td>
                             <td className="py-4 px-4 text-muted-foreground">
                               {/* device না থাকলে deviceType দেখাবে */}
@@ -145,13 +190,19 @@ export default function AllTicketsPage() {
                               {ticket.issue}
                             </td>
                             <td className="py-4 px-4">
-                              <Badge className={getStatusBadge(ticket.status || 'Pending')}>
-                                {ticket.status || 'Pending'}
+                              <Badge
+                                className={getStatusBadge(
+                                  ticket.status || "Pending",
+                                )}
+                              >
+                                {ticket.status || "Pending"}
                               </Badge>
                             </td>
                             <td className="py-4 px-4 text-muted-foreground">
                               {/* date না থাকলে createdAt দেখাবে */}
-                              {new Date(ticket.date || ticket.createdAt).toLocaleDateString()}
+                              {new Date(
+                                ticket.date || ticket.createdAt,
+                              ).toLocaleDateString()}
                             </td>
                             <td className="py-4 px-4">
                               <Button
