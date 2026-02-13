@@ -55,7 +55,7 @@ export default function AllTicketsPage() {
 
   // ২. ফিল্টারিং লজিক (নিরাপদ করা হয়েছে)
   const filtered = repairs.filter((ticket) => {
-    // ডাটা না থাকলে ক্রাশ করবে না (Optional Chaining)
+    
     const customerMatch = ticket.contact?.toLowerCase().includes(search.toLowerCase()) || false;
     const idMatch = ticket.ticketId?.toLowerCase().includes(search.toLowerCase()) || false;
     
