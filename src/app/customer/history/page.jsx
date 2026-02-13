@@ -1,16 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { CheckCircle2, DownloadCloud, MessageSquare } from "lucide-react";
 import { DashboardSidebar } from "@/Components/DashboardSidebar";
 import { DashboardHeader } from "@/Components/DashboardHeaderProps";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/Components/ui/card";
 import { Badge } from "@/Components/ui/badge";
 import { Button } from "@/Components/ui/button";
+import { PulseLoader } from "@/Components/Loading/PulseLoader";
+import { RepairLoader } from "@/Components/Loading/RepairLoader";
 
-
-const mockRepairHistory = [
+const repairs = [
   {
     id: 1,
     ticketId: "FIX-2401",
@@ -18,7 +25,7 @@ const mockRepairHistory = [
     issue: "Screen Replacement",
     status: "completed",
     date: "2024-01-25",
-    cost: 180,
+    price: 180,
     technician: "John Smith",
   },
   {
@@ -28,7 +35,7 @@ const mockRepairHistory = [
     issue: "Battery Replacement",
     status: "completed",
     date: "2024-01-18",
-    cost: 220,
+    price: 220,
     technician: "Sarah Davis",
   },
   {
@@ -38,7 +45,7 @@ const mockRepairHistory = [
     issue: "Software Update",
     status: "completed",
     date: "2024-01-10",
-    cost: 50,
+    price: 50,
     technician: "Mike Johnson",
   },
   {
@@ -48,15 +55,43 @@ const mockRepairHistory = [
     issue: "Charging Port Fix",
     status: "completed",
     date: "2024-01-05",
-    cost: 120,
+    price: 120,
     technician: "Emma Wilson",
   },
 ];
 
 export default function MyRepairHistoryPage() {
   const [selectedRepair, setSelectedRepair] = useState(null);
-  const totalSpent = mockRepairHistory.reduce((sum, r) => sum + r.cost, 0);
+  const [repairs, setRepairs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  // ২. ডাটা ফেচ করার ফাংশন
+  useEffect(() => {
+    const fetchRepire = async () => {
+      try {
+        const res = await fetch("/api/repair-requests");
+        const data = await res.json();
+        setRepairs(data);
+      } catch (reeor) {
+        console.error("Failed to fetch data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchRepire();
+  }, []);
+
+  const totalSpent = repairs.reduce((sum, r) => {
+    if (!r.price || r.price === "Charge Free") return sum + 0;
+    return sum + Number(r.price || 0);
+  }, 0);
+  if (loading) {
+    return (
+      <div>
+        <RepairLoader></RepairLoader>
+      </div>
+    );
+  }
   return (
     <div className="flex h-screen bg-background">
       <DashboardSidebar />
@@ -87,7 +122,7 @@ export default function MyRepairHistoryPage() {
                         Total Repairs
                       </p>
                       <p className="text-3xl font-bold text-foreground">
-                        {mockRepairHistory.length}
+                        {repairs.length}
                       </p>
                     </div>
                     <CheckCircle2 className="h-10 w-10 text-green-500/20" />
@@ -155,7 +190,7 @@ export default function MyRepairHistoryPage() {
                           Technician
                         </th>
                         <th className="text-left py-3 px-4 font-semibold text-foreground">
-                          Cost
+                          price
                         </th>
                         <th className="text-left py-3 px-4 font-semibold text-foreground">
                           Date
@@ -166,7 +201,7 @@ export default function MyRepairHistoryPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {mockRepairHistory.map((repair) => (
+                      {repairs.map((repair) => (
                         <tr
                           key={repair.id}
                           className="border-b border-border hover:bg-muted/50 transition-colors"
@@ -184,7 +219,7 @@ export default function MyRepairHistoryPage() {
                             {repair.technician}
                           </td>
                           <td className="py-4 px-4 font-medium text-foreground">
-                            ${repair.cost}
+                            ${repair.price}
                           </td>
                           <td className="py-4 px-4 text-muted-foreground">
                             {new Date(repair.date).toLocaleDateString()}
@@ -243,9 +278,11 @@ export default function MyRepairHistoryPage() {
                 </p>
               </div>
               <div className="border-t border-border pt-4">
-                <p className="text-sm text-muted-foreground mb-1">Total Cost</p>
+                <p className="text-sm text-muted-foreground mb-1">
+                  Total price
+                </p>
                 <p className="text-2xl font-bold text-foreground">
-                  ${selectedRepair.cost}
+                  ${selectedRepair.price}
                 </p>
               </div>
               <div className="flex gap-2">

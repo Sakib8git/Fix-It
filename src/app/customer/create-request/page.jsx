@@ -44,21 +44,21 @@ const serviceTypes = [
     id: 1,
     name: "In-Store Repair",
     description: "Bring device to our shop",
-    price: "Varies",
+    price: "Charge Free",
     time: "24-48h",
   },
   {
     id: 2,
     name: "Home Service",
     description: "We come to you",
-    price: "+$50",
+    price: "50",
     time: "48-72h",
   },
   {
     id: 3,
     name: "Express Service",
     description: "Fast track repair",
-    price: "+$100",
+    price: "100",
     time: "12-24h",
   },
 ];
@@ -70,6 +70,7 @@ export default function CreateNewRequestPage() {
     serviceType: "",
     description: "",
     contact: "",
+    price: "",
   });
   const [submitted, setSubmitted] = useState(false);
   const [ticketId, setTicketId] = useState("");
@@ -86,6 +87,7 @@ export default function CreateNewRequestPage() {
       ticketId: newTicketId,
       deviceType: formData.deviceType,
       issue: formData.issue,
+      price: serviceTypes.find((s) => s.id === formData.serviceType)?.price,
       serviceTypeId: formData.serviceType,
       // সার্ভিস টাইপের নামটা খুঁজে বের করে পাঠাচ্ছি (অপশনাল, কিন্তু ভালো প্র্যাকটিস)
       serviceTypeName: serviceTypes.find((s) => s.id === formData.serviceType)

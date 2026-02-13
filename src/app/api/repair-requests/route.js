@@ -1,6 +1,20 @@
 import { getCollection } from "@/lib/dbConntect";
 import { NextResponse } from "next/server";
 
+export async function GET(request) {
+  try {
+    const requestCollection = await getCollection("repair_requests");
+    const result = await requestCollection.find().toArray();
+    return NextResponse.json(result);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { message: "Error fetching data" },
+      { status: 500 },
+    );
+  }
+}
+
 export async function POST(request) {
   try {
     const body = await request.json();
