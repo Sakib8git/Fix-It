@@ -58,11 +58,8 @@ export default function AllTicketsPage() {
     
     const customerMatch = ticket.contact?.toLowerCase().includes(search.toLowerCase()) || false;
     const idMatch = ticket.ticketId?.toLowerCase().includes(search.toLowerCase()) || false;
-    
     const matchesSearch = customerMatch || idMatch;
-    
     const matchesStatus = filterStatus === "all" || ticket.status?.toLowerCase() === filterStatus;
-    
     return matchesSearch && matchesStatus;
   });
 
