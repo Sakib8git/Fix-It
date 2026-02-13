@@ -16,8 +16,19 @@ import {
 import { Badge } from "@/Components/ui/badge";
 import { Input } from "@/Components/ui/input";
 import Swal from "sweetalert2";
+import { RepairLoader } from "@/Components/Loading/RepairLoader";
+// import { PulseLoader } from "@/Components/Loading/PulseLoader";
 
-const devices = ["iPhone", "Samsung", "iPad", "MacBook", "Dell", "HP", "Other"];
+const devices = [
+  "iPhone",
+  "Samsung",
+  "iPad",
+  "MacBook",
+  "ASUS",
+  "Dell",
+  "HP",
+  "Other",
+];
 const issues = [
   "Screen Replacement",
   "Battery Replacement",
@@ -61,7 +72,7 @@ export default function CreateNewRequestPage() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [ticketId, setTicketId] = useState("");
-  const [loading, setLoading] = useState(false); // 🔥 লোডিং স্টেট যোগ করলাম
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -111,7 +122,14 @@ export default function CreateNewRequestPage() {
   const handleChange = (field, value) => {
     setFormData({ ...formData, [field]: value });
   };
-
+  if (loading) {
+    return (
+      <div>
+        <RepairLoader></RepairLoader>
+        {/* <PulseLoader></PulseLoader> */}
+      </div>
+    );
+  }
   if (submitted) {
     return (
       <div className="flex h-screen bg-background">
