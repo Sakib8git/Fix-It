@@ -50,6 +50,22 @@ export default function LoginPage() {
     }
     try {
       await signInWithEmail(email, password);
+      // ---------------------------------------------------------
+      
+      // ---------------------------------------------------------
+
+      // লোকাল স্টোরেজে ডাটা সেট করা
+      localStorage.setItem("isLoggedIn", "true");
+      
+      localStorage.setItem("userName", email.split("@")[0]);
+      localStorage.setItem("userEmail", email);
+
+      // ইভেন্ট ডিসপ্যাচ করা যাতে Navbar আপডেট হয়
+      window.dispatchEvent(new Event("auth-change"));
+
+      // ---------------------------------------------------------
+      // ☝️ কোড শেষ ☝️
+      // ---------------------------------------------------------
       Swal.fire({
         icon: "success",
         title: "Login successful!",
