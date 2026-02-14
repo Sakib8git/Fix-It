@@ -3,13 +3,18 @@
 import { useState } from "react";
 
 import { Save, X } from "lucide-react";
-import { DashboardSidebar } from "@/Components/DashboardSidebar";
-import { DashboardHeader } from "@/Components/DashboardHeaderProps";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card";
-import { Button } from "@/Components/ui/button";
-import { Input } from "@/Components/ui/input";
-import { Badge } from "@/Components/ui/badge";
-
+import { DashboardSidebar } from "@/components_temp/DashboardSidebar";
+import { DashboardHeader } from "@/components_temp/DashboardHeaderProps";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components_temp/ui/card";
+import { Button } from "@/components_temp/ui/button";
+import { Input } from "@/components_temp/ui/input";
+import { Badge } from "@/components_temp/ui/badge";
 
 const services = [
   {

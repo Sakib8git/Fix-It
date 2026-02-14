@@ -3,20 +3,20 @@
 import { useState } from "react";
 
 import { AlertCircle, CheckCircle2 } from "lucide-react";
-import { DashboardSidebar } from "@/Components/DashboardSidebar";
-import { DashboardHeader } from "@/Components/DashboardHeaderProps";
-import { Button } from "@/Components/ui/button";
+import { DashboardSidebar } from "@/components_temp/DashboardSidebar";
+import { DashboardHeader } from "@/components_temp/DashboardHeaderProps";
+import { Button } from "@/components_temp/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/Components/ui/card";
-import { Badge } from "@/Components/ui/badge";
-import { Input } from "@/Components/ui/input";
+} from "@/components_temp/ui/card";
+import { Badge } from "@/components_temp/ui/badge";
+import { Input } from "@/components_temp/ui/input";
 import Swal from "sweetalert2";
-import { RepairLoader } from "@/Components/Loading/RepairLoader";
+import { RepairLoader } from "@/components_temp/Loading/RepairLoader";
 import Link from "next/link";
 // import { PulseLoader } from "@/Components/Loading/PulseLoader";
 

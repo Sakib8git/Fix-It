@@ -13,9 +13,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/Components/ui/card";
-import { Input } from "@/Components/ui/input";
-import { Button } from "@/Components/ui/button";
+} from "@/components_temp/ui/card";
+import { Input } from "@/components_temp/ui/input";
+import { Button } from "@/components_temp/ui/button";
 import { signInWithEmail } from "@/lib/auth";
 import Swal from "sweetalert2";
 

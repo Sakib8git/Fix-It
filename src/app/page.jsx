@@ -1,11 +1,11 @@
-import CTASection from "@/Components/CTASection";
-import Footer from "@/Components/Footer";
-import Hero from "@/Components/Hero";
-import HowItWorks from "@/Components/HowItWorks";
-import Navbar from "@/Components/Navbar";
-import ServicesGrid from "@/Components/ServicesGrid";
-import Testimonials from "@/Components/Testimonials";
-import TrustIndicators from "@/Components/TrustIndicators";
+import CTASection from "@/components_temp/CTASection";
+import Footer from "@/components_temp/Footer";
+import Hero from "@/components_temp/Hero";
+import HowItWorks from "@/components_temp/HowItWorks";
+import Navbar from "@/components_temp/Navbar";
+import ServicesGrid from "@/components_temp/ServicesGrid";
+import Testimonials from "@/components_temp/Testimonials";
+import TrustIndicators from "@/components_temp/TrustIndicators";
 
 export default function Home() {
   return (

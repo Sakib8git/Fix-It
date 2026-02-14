@@ -3,19 +3,19 @@
 import { useEffect, useState } from "react";
 
 import { CheckCircle2, DownloadCloud, MessageSquare } from "lucide-react";
-import { DashboardSidebar } from "@/Components/DashboardSidebar";
-import { DashboardHeader } from "@/Components/DashboardHeaderProps";
+import { DashboardSidebar } from "@/components_temp/DashboardSidebar";
+import { DashboardHeader } from "@/components_temp/DashboardHeaderProps";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/Components/ui/card";
-import { Badge } from "@/Components/ui/badge";
-import { Button } from "@/Components/ui/button";
-import { PulseLoader } from "@/Components/Loading/PulseLoader";
-import { RepairLoader } from "@/Components/Loading/RepairLoader";
+} from "@/components_temp/ui/card";
+import { Badge } from "@/components_temp/ui/badge";
+import { Button } from "@/components_temp/ui/button";
+import { PulseLoader } from "@/components_temp/Loading/PulseLoader";
+import { RepairLoader } from "@/components_temp/Loading/RepairLoader";
 
 const repairs = [
   {

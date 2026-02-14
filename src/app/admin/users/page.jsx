@@ -17,13 +17,16 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/Components/ui/card";
-import { Button } from "@/Components/ui/button";
-import { Input } from "@/Components/ui/input";
-import { Avatar, AvatarFallback } from "@/Components/ui/avatar";
-import { Badge } from "@/Components/ui/badge";
-import { DashboardSidebar, DashboardSidebarMobile } from "@/Components/DashboardSidebar";
-import { DashboardHeader } from "@/Components/DashboardHeaderProps";
+} from "@/components_temp/ui/card";
+import { Button } from "@/components_temp/ui/button";
+import { Input } from "@/components_temp/ui/input";
+import { Avatar, AvatarFallback } from "@/components_temp/ui/avatar";
+import { Badge } from "@/components_temp/ui/badge";
+import {
+  DashboardSidebar,
+  DashboardSidebarMobile,
+} from "@/components_temp/DashboardSidebar";
+import { DashboardHeader } from "@/components_temp/DashboardHeaderProps";
 
 const mockUsers = [
   {
@@ -123,7 +126,9 @@ export default function UserManagementPage() {
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Mobile Hamburger Menu */}
         <div className="sticky top-0 z-50 border-b border-border bg-background px-4 py-3 md:hidden flex items-center justify-between">
-          <h1 className="text-lg font-semibold text-foreground">User Management</h1>
+          <h1 className="text-lg font-semibold text-foreground">
+            User Management
+          </h1>
           <DashboardSidebarMobile />
         </div>
 
@@ -138,7 +143,9 @@ export default function UserManagementPage() {
                 <div className="flex items-center justify-between mb-6">
                   <div>
                     <CardTitle className="text-2xl">User Management</CardTitle>
-                    <CardDescription>Manage and monitor all registered customers</CardDescription>
+                    <CardDescription>
+                      Manage and monitor all registered customers
+                    </CardDescription>
                   </div>
                   <Button className="bg-primary text-primary-foreground hover:bg-primary/90 gap-2">
                     <Plus className="h-4 w-4" />
@@ -154,8 +161,8 @@ export default function UserManagementPage() {
                     className="pl-10"
                     value={searchTerm}
                     onChange={(e) => {
-                      setSearchTerm(e.target.value)
-                      setCurrentPage(1)
+                      setSearchTerm(e.target.value);
+                      setCurrentPage(1);
                     }}
                   />
                 </div>
@@ -167,16 +174,29 @@ export default function UserManagementPage() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-border">
-                        <th className="text-left py-4 px-6 font-semibold text-foreground">USER</th>
-                        <th className="text-left py-4 px-6 font-semibold text-foreground">ROLE</th>
-                        <th className="text-left py-4 px-6 font-semibold text-foreground">STATUS</th>
-                        <th className="text-left py-4 px-6 font-semibold text-foreground">JOIN DATE</th>
-                        <th className="text-left py-4 px-6 font-semibold text-foreground">ACTION</th>
+                        <th className="text-left py-4 px-6 font-semibold text-foreground">
+                          USER
+                        </th>
+                        <th className="text-left py-4 px-6 font-semibold text-foreground">
+                          ROLE
+                        </th>
+                        <th className="text-left py-4 px-6 font-semibold text-foreground">
+                          STATUS
+                        </th>
+                        <th className="text-left py-4 px-6 font-semibold text-foreground">
+                          JOIN DATE
+                        </th>
+                        <th className="text-left py-4 px-6 font-semibold text-foreground">
+                          ACTION
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       {paginatedUsers.map((user) => (
-                        <tr key={user.id} className="border-b border-border hover:bg-muted/50 transition-colors">
+                        <tr
+                          key={user.id}
+                          className="border-b border-border hover:bg-muted/50 transition-colors"
+                        >
                           <td className="py-4 px-6">
                             <div className="flex items-center gap-3">
                               <Avatar className="h-8 w-8">
@@ -185,8 +205,12 @@ export default function UserManagementPage() {
                                 </AvatarFallback>
                               </Avatar>
                               <div>
-                                <p className="font-medium text-foreground">{user.name}</p>
-                                <p className="text-xs text-muted-foreground">{user.email}</p>
+                                <p className="font-medium text-foreground">
+                                  {user.name}
+                                </p>
+                                <p className="text-xs text-muted-foreground">
+                                  {user.email}
+                                </p>
                               </div>
                             </div>
                           </td>
@@ -231,47 +255,60 @@ export default function UserManagementPage() {
                 {/* Pagination */}
                 <div className="flex items-center justify-between mt-8 pt-6 border-t border-border">
                   <p className="text-xs text-muted-foreground">
-                    Showing 1-{Math.min(itemsPerPage, paginatedUsers.length)} of {filteredUsers.length} users
+                    Showing 1-{Math.min(itemsPerPage, paginatedUsers.length)} of{" "}
+                    {filteredUsers.length} users
                   </p>
                   <div className="flex items-center gap-2">
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                      onClick={() =>
+                        setCurrentPage(Math.max(1, currentPage - 1))
+                      }
                       disabled={currentPage === 1}
                       className="gap-1"
                     >
                       Previous
                     </Button>
                     <div className="flex gap-1">
-                      {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                        <Button
-                          key={page}
-                          variant={currentPage === page ? 'default' : 'outline'}
-                          size="sm"
-                          onClick={() => setCurrentPage(page)}
-                          className={currentPage === page ? 'bg-primary text-primary-foreground' : ''}
-                        >
-                          {page}
-                        </Button>
-                      ))}
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                        (page) => (
+                          <Button
+                            key={page}
+                            variant={
+                              currentPage === page ? "default" : "outline"
+                            }
+                            size="sm"
+                            onClick={() => setCurrentPage(page)}
+                            className={
+                              currentPage === page
+                                ? "bg-primary text-primary-foreground"
+                                : ""
+                            }
+                          >
+                            {page}
+                          </Button>
+                        ),
+                      )}
                     </div>
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                      onClick={() =>
+                        setCurrentPage(Math.min(totalPages, currentPage + 1))
+                      }
                       disabled={currentPage === totalPages}
                       className="gap-1"
                     >
                       Next
                     </Button>
                   </div>
-            </div>
-          </CardContent>
-        </Card>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

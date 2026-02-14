@@ -5,24 +5,24 @@ import { Clock, CheckCircle2, AlertCircle, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 // UI Components
-import { Badge } from "@/Components/ui/badge";
-import { Button } from "@/Components/ui/button"; // Button import করা হলো
+import { Badge } from "@/components_temp/ui/badge";
+import { Button } from "@/components_temp/ui/button"; // Button import করা হলো
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/Components/ui/card"; // Card এর সব পার্ট ইম্পোর্ট করা হলো
+} from "@/components_temp/ui/card"; // Card এর সব পার্ট ইম্পোর্ট করা হলো
 
 // Custom Components
 import {
   DashboardSidebar,
   DashboardSidebarMobile,
-} from "@/Components/DashboardSidebar";
+} from "@/components_temp/DashboardSidebar";
 // Props নামটা সাধারণত ফাইলে থাকে না, তাই শুধু Header দিলাম
-import { DashboardMetrics } from "@/Components/DashboardMetrics";
-import { DashboardHeader } from "@/Components/DashboardHeaderProps";
+import { DashboardMetrics } from "@/components_temp/DashboardMetrics";
+import { DashboardHeader } from "@/components_temp/DashboardHeaderProps";
 
 // Interface এবং Type বাদ দেওয়া হয়েছে (JS এ লাগে না)
 
