@@ -3,17 +3,17 @@
 import { useState } from "react";
 
 import { Clock, CheckCircle2, AlertCircle } from "lucide-react";
-import { DashboardSidebar } from "@/components_temp/DashboardSidebar";
-import { DashboardHeader } from "@/components_temp/DashboardHeaderProps";
+import { DashboardSidebar } from "@/components/DashboardSidebar";
+import { DashboardHeader } from "@/components/DashboardHeaderProps";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components_temp/ui/card";
-import { Badge } from "@/components_temp/ui/badge";
-import { Button } from "@/components_temp/ui/button";
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 const mockTasks = [
   {

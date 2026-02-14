@@ -17,16 +17,16 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components_temp/ui/card";
-import { Button } from "@/components_temp/ui/button";
-import { Input } from "@/components_temp/ui/input";
-import { Avatar, AvatarFallback } from "@/components_temp/ui/avatar";
-import { Badge } from "@/components_temp/ui/badge";
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import {
   DashboardSidebar,
   DashboardSidebarMobile,
-} from "@/components_temp/DashboardSidebar";
-import { DashboardHeader } from "@/components_temp/DashboardHeaderProps";
+} from "@/components/DashboardSidebar";
+import { DashboardHeader } from "@/components/DashboardHeaderProps";
 
 const mockUsers = [
   {

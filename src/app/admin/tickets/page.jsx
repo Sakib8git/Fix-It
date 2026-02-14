@@ -2,19 +2,19 @@
 
 import { useEffect, useState } from "react";
 import { Search, ChevronRight, Filter } from "lucide-react";
-import { DashboardSidebar } from "@/components_temp/DashboardSidebar";
-import { DashboardHeader } from "@/components_temp/DashboardHeaderProps";
+import { DashboardSidebar } from "@/components/DashboardSidebar";
+import { DashboardHeader } from "@/components/DashboardHeaderProps";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components_temp/ui/card";
-import { Button } from "@/components_temp/ui/button";
-import { Input } from "@/components_temp/ui/input";
-import { Badge } from "@/components_temp/ui/badge";
-import { RepairLoader } from "@/components_temp/Loading/RepairLoader";
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { RepairLoader } from "@/components/Loading/RepairLoader";
 
 // স্ট্যাটাস ব্যাজ কালার লজিক (Case Insensitive করা হয়েছে)
 function getStatusBadge(status) {
