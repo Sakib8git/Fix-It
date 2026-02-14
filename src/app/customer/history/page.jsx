@@ -72,7 +72,7 @@ export default function MyRepairHistoryPage() {
         const res = await fetch("/api/repair-requests");
         const data = await res.json();
         setRepairs(data);
-      } catch (reeor) {
+      } catch (error) {
         console.error("Failed to fetch data:", error);
       } finally {
         setLoading(false);
