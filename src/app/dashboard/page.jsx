@@ -3,70 +3,47 @@ import {
   DashboardSidebarMobile,
 } from "@/components/DashboardSidebar";
 import { DashboardHeader } from "@/components/DashboardHeaderProps";
+
+import { getCollection } from "@/lib/dbConnect"; // ১. ডাটাবেস কানেকশন ইম্পোর্ট
 import DashboardClient from "@/components/DashboardClient";
 
-// import { getCollection } from "@/lib/dbConnect"; // ডাটাবেস কানেকশন (ভবিষ্যতের জন্য)
-
-// মক ডাটা (ডাটাবেস কানেক্ট হওয়ার আগ পর্যন্ত)
-const mockRepairs = [
-  {
-    id: 1,
-    ticketId: "FIX-2401",
-    customerName: "Sarah Johnson",
-    device: "iPhone 14 Pro",
-    status: "completed",
-    date: "2024-01-25",
-    cost: 180,
-  },
-  {
-    id: 2,
-    ticketId: "FIX-2402",
-    customerName: "Michael Chen",
-    device: "MacBook Air",
-    status: "in-progress",
-    date: "2024-01-28",
-    cost: 220,
-  },
-  {
-    id: 3,
-    ticketId: "FIX-2403",
-    customerName: "Emma Wilson",
-    device: "iPad Pro",
-    status: "pending",
-    date: "2024-01-30",
-    cost: 350,
-  },
-  {
-    id: 4,
-    ticketId: "FIX-2404",
-    customerName: "David Brown",
-    device: "Samsung Galaxy S23",
-    status: "completed",
-    date: "2024-01-22",
-    cost: 150,
-  },
-  {
-    id: 5,
-    ticketId: "FIX-2405",
-    customerName: "Jessica Martinez",
-    device: "Dell XPS 13",
-    status: "in-progress",
-    date: "2024-01-29",
-    cost: 280,
-  },
-];
-
-// সার্ভার সাইড ডাটা ফেচিং ফাংশন
+// ২. সার্ভার সাইড ডাটা ফেচিং ফাংশন (আপডেট করা হয়েছে)
 async function getRecentRepairs() {
-  // এখানে ডাটাবেস কল হবে
-  // const repairsCollection = await getCollection('repairs');
-  // const result = await repairsCollection.find().sort({date: -1}).limit(5).toArray();
-  // return JSON.parse(JSON.stringify(result));
+  try {
+    const repairsCollection = await getCollection("repair_requests");
 
-  return mockRepairs;
+    // ৩. ডাটাবেস থেকে ডাটা আনা (নতুনগুলো আগে, এবং মাত্র ৫টি)
+    const result = await repairsCollection
+      .find()
+      .sort({ createdAt: -1 }) // -1 মানে Descending (Newest first)
+      .limit(5) // ড্যাশবোর্ডে সাধারণত ৫-১০টা ডাটা দেখায়
+      .toArray();
+
+    // ৪. ডাটা ফরম্যাটিং এবং ম্যাপিং
+    // (Next.js এ _id অবজেক্ট পাস করা যায় না, তাই স্ট্রিং করতে হয়)
+    const formattedData = result.map((repair) => ({
+      id: repair._id.toString(), // MongoDB _id কে স্ট্রিং বানানো
+      ticketId: repair.ticketId,
+      // আপনার DB তে নাম 'contact' কিন্তু UI তে 'customerName' চাচ্ছে
+      customerName: repair.contact || "Unknown Customer", 
+      // আপনার DB তে 'deviceType' কিন্তু UI তে 'device' চাচ্ছে
+      device: repair.deviceType || repair.device, 
+      status: repair.status || "pending",
+      date: repair.createdAt || new Date().toISOString(),
+      // আপনার DB তে 'price' কিন্তু UI তে 'cost' চাচ্ছে
+      cost: repair.price || 0, 
+    }));
+
+    return formattedData;
+
+  } catch (error) {
+    console.error("Failed to fetch repairs:", error);
+    return []; // এরর হলে খালি অ্যারে রিটার্ন করবে যাতে পেজ ক্রাশ না করে
+  }
 }
 
 export default async function DashboardPage() {
+  // ডাটা ফেচ করা হচ্ছে
   const recentRepairs = await getRecentRepairs();
 
   return (
@@ -87,7 +64,7 @@ export default async function DashboardPage() {
 
         {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto">
-          {/* ক্লায়েন্ট কম্পোনেন্টকে ডাটা পাস করা হচ্ছে */}
+          {/* ক্লায়েন্ট কম্পোনেন্টকে রিয়েল ডাটা পাস করা হচ্ছে */}
           <DashboardClient recentRepairs={recentRepairs} />
         </div>
       </div>

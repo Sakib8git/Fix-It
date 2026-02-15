@@ -70,9 +70,9 @@ export default function DashboardClient({ recentRepairs }) {
                 Latest repairs submitted by customers
               </CardDescription>
             </div>
-            <Link href="/dashboard/new-request">
+            <Link href="/admin/tickets">
               <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-                New Request
+                All Tickets
               </Button>
             </Link>
           </div>
