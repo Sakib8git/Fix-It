@@ -50,7 +50,7 @@ export default function Hero() {
           </div>
 
           {/* Right Column - Check Repair Status Card */}
-          <div>
+          {/* <div>
             <Card className="border-border bg-card shadow-lg">
               <CardHeader>
                 <h3 className="text-lg font-bold text-foreground">
@@ -86,7 +86,7 @@ export default function Hero() {
                 </p>
               </CardContent>
             </Card>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

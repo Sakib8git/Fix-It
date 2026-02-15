@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { Bell, LogOut, ChevronDown, User, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
@@ -22,35 +21,22 @@ export function DashboardHeader({
   ],
 }) {
   const router = useRouter();
-  const [userName, setUserName] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [loading, setLoading] = useState(true); // ১. লোডিং স্টেট
 
-  const checkLoginStatus = () => {
+  const [authState, setAuthState] = useState({
+    isLoggedIn: false,
+    userName: "",
+    loading: true,
+  });
+
+  useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn");
     const name = localStorage.getItem("userName");
 
-    if (loggedIn === "true" && name) {
-      setIsLoggedIn(true);
-      setUserName(name);
-    } else {
-      setIsLoggedIn(false);
-      setUserName("");
-    }
-    setLoading(false); // ২. চেক শেষ হলে লোডিং বন্ধ হবে
-  };
-
-  useEffect(() => {
-    // পেজ লোড হওয়ার সাথে সাথে চেক করবে
-    checkLoginStatus();
-
-    window.addEventListener("storage", checkLoginStatus);
-    window.addEventListener("auth-change", checkLoginStatus);
-
-    return () => {
-      window.removeEventListener("storage", checkLoginStatus);
-      window.removeEventListener("auth-change", checkLoginStatus);
-    };
+    setAuthState({
+      isLoggedIn: loggedIn === "true" && !!name,
+      userName: name ?? "",
+      loading: false,
+    });
   }, []);
 
   const handleLogout = () => {
@@ -59,10 +45,11 @@ export function DashboardHeader({
     localStorage.removeItem("userEmail");
     window.dispatchEvent(new Event("auth-change"));
 
-    setIsLoggedIn(false);
-    setUserName("");
+    setAuthState({ isLoggedIn: false, userName: "", loading: false });
     router.push("/");
   };
+
+  const { isLoggedIn, userName, loading } = authState;
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background">
@@ -112,21 +99,16 @@ export function DashboardHeader({
             <span className="absolute top-1 right-1 h-2 w-2 bg-primary rounded-full"></span>
           </Button>
 
-          {/* ৩. ইউজার প্রোফাইল সেকশন (উইথ লোডিং ইফেক্ট) */}
+          {/* User Profile Section */}
           {loading ? (
-            // 👇 লোডিং স্কেলিটন (Loading Skeleton)
             <div className="flex items-center gap-3 pl-2 pr-4">
-              <div className="h-8 w-8 rounded-full bg-muted animate-pulse" />{" "}
-              {/* Avatar Skeleton */}
+              <div className="h-8 w-8 rounded-full bg-muted animate-pulse" />
               <div className="hidden sm:flex flex-col gap-1">
-                <div className="h-3 w-20 bg-muted animate-pulse rounded" />{" "}
-                {/* Name Skeleton */}
-                <div className="h-2 w-12 bg-muted animate-pulse rounded" />{" "}
-                {/* Role Skeleton */}
+                <div className="h-3 w-20 bg-muted animate-pulse rounded" />
+                <div className="h-2 w-12 bg-muted animate-pulse rounded" />
               </div>
             </div>
           ) : isLoggedIn ? (
-            // 👇 লগইন থাকলে ড্রপডাউন
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -172,7 +154,6 @@ export function DashboardHeader({
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            // 👇 লগইন না থাকলে লগইন বাটন
             <Link href="/login">
               <Button size="sm" className="bg-primary text-primary-foreground">
                 Login

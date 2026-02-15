@@ -1,6 +1,5 @@
 "use client";
 
-
 import { Wrench, Mail, Phone, MapPin } from "lucide-react";
 
 export default function Footer() {
@@ -22,7 +21,7 @@ export default function Footer() {
             </p>
             <div className="flex gap-3 mt-4">
               <a
-                href="#"
+                href="https://www.facebook.com/"
                 className="text-muted-foreground hover:text-primary transition-colors"
               >
                 <span className="sr-only">Share</span>
@@ -35,20 +34,21 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://x.com/"
                 className="text-muted-foreground hover:text-primary transition-colors"
               >
-                <span className="sr-only">Twitter</span>
+                <span className="sr-only">X</span>
                 <svg
                   className="w-5 h-5"
                   fill="currentColor"
                   viewBox="0 0 24 24"
+                  aria-hidden="true"
                 >
-                  <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2s9 5 20 5a9.5 9.5 0 00-9-5.5c4.75 2.25 10 2.25 10-2.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/"
                 className="text-muted-foreground hover:text-primary transition-colors"
               >
                 <span className="sr-only">Instagram</span>
@@ -149,16 +149,16 @@ export default function Footer() {
               <div className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 text-primary mt-1 flex-shrink-0" />
                 <p className="text-sm text-muted-foreground">
-                  523 Tech Avenue, Silicon Valley, CA 94025
+                  523 Tech Avenue, Dakbangla, Khulna
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4 text-primary flex-shrink-0" />
                 <a
-                  href="tel:+16505012456"
+                  href="tel:+880123456789"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
-                  +1 (650) 501-2456
+                  +880123456789
                 </a>
               </div>
               <div className="flex items-center gap-2">
